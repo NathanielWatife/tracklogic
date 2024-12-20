@@ -1,4 +1,3 @@
-import { ChainId, Token, TokenAmount, Pair, Trade, TradeType, Route } from '@uniswap/sdk'
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -6,65 +5,79 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const User = require('../models/User');
 
-
 const router = express.Router();
 
 // Email transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
+        pass: process.env.EMAIL_PASSWORD,
     },
+    debug: true,
+    logger: true
 });
 
-// generate jwt token
+// Generate JWT token
 const generateToken = (user) => {
     return jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET,
-        {expiresIn: '1hr'}
+        { expiresIn: '1h' } // Fixed expiration format
     );
 };
 
-// routes fr register
-router.post('/register', [
-    body('name').notEmpty().withMessage('Name is required'),
-    body('email').isEmail().withMessage('Invalid email'),
-    body('phone').isMobilePhone().withMessage('Invalid phone number'),
-    body('password').isLenght({ min: 6 }).withMessage('Password must be at least 8 characters'),
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+// Register route
+router.post(
+    '/register',
+    [
+        body('name').notEmpty().withMessage('Name is required'),
+        body('email').isEmail().withMessage('Invalid email'),
+        body('phone').isMobilePhone().withMessage('Invalid phone number'),
+        body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { name, email, phone, password } = req.body;
+
+        try {
+            let user = await User.findOne({ email });
+            if (user) return res.status(400).json({ message: 'User already exists' });
+
+            user = new User({ name, email, phone, password });
+            await user.save();
+
+            // Send verification email
+            const verificationToken = generateToken(user);
+            const verificationUrl = `${req.protocol}://${req.get('host')}/api/auth/verify-email?token=${verificationToken}`;
+
+            try {
+                await transporter.sendMail({
+                    from: process.env.EMAIL,
+                    to: email,
+                    subject: 'Verify your email',
+                    html: `<p>Click <a href="${verificationUrl}">here</a> to verify your email.</p>`,
+                });
+            } catch (emailErr) {
+                console.error('Email Sending Error:', emailErr.message);
+                return res.status(500).json({ message: 'Failed to send verification email' });
+            }
+
+            res.status(201).json({ message: 'User registered. Verification email sent.' });
+        } catch (err) {
+            console.error('Error:', err);
+            res.status(500).json({ message: 'Server Error', error: err.message });
+        }
     }
-    const {  name, email, phone, password } = req.body;
-    try {
-        let user = await User.findOne({email}); 
-        if (user) return res.status(400).json({ message: 'User already exists' });
-
-        user = new User({ name, email, phone, password });
-        await user.save();
-
-        // send verification email
-        const verificationToken = generateToken(user);
-        const verificationUrl = `${req.protocol}://${req.get('host')}/api/auth/verify-email?token=${verificationToken}`;
-
-        await transporter.sendMail({
-            from: process.env.Email,
-            to: email,
-            subject: 'Verify your email',
-            html: `<p>Click <a href="${verificationUrl}">here</a> to verify your email.</p>`,
-        });
-        res.status(201).json({message: 'User register. Verification email sent.'});
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ message: 'Server Error' });
-    }
-}
 );
 
-// get routes to verify email
+// Verify email route
 router.get('/verify-email', async (req, res) => {
     const { token } = req.query;
     if (!token) return res.status(400).json({ message: 'Token is missing' });
@@ -80,14 +93,14 @@ router.get('/verify-email', async (req, res) => {
 
         res.json({ message: 'Email verified successfully.' });
     } catch (err) {
+        console.error('Verification Error:', err);
         res.status(400).json({ message: 'Invalid or expired token' });
     }
 });
 
-
-
-// routes for login
-routes.post('/login', 
+// Login route
+router.post(
+    '/login',
     [
         body('email').isEmail().withMessage('Invalid email'),
         body('password').notEmpty().withMessage('Password is required'),
@@ -97,6 +110,7 @@ routes.post('/login',
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         const { email, password } = req.body;
 
         try {
@@ -109,11 +123,12 @@ routes.post('/login',
             if (!user.isEmailVerified) {
                 return res.status(403).json({ message: 'Please verify your email to login' });
             }
+
             const token = generateToken(user);
             res.json({ token });
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ message: 'Server Error' });
+            console.error('Login Error:', err);
+            res.status(500).json({ message: 'Server Error', error: err.message });
         }
     }
 );

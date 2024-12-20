@@ -7,6 +7,7 @@ require('dotenv').config();
 
 // const for auth
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
 
 
 const app = express();
@@ -31,6 +32,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.get('/', (req, res) => res.send('API is running...'));
 // routes for register
 app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 // start the server
 app.listen(PORT, () => {

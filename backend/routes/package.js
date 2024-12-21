@@ -167,4 +167,107 @@ router.delete('/:id', authMiddleware, async (re, res) => {
     }
 });
 
+
+
+// update delivery details
+router.put('/:id/delivery', authMiddleware, async (req, res) => {
+  try {
+    const { deliveryType, deliveryAddress } = req.body;
+    const updateFields = {};
+    if (deliveryType) updateFields.deliveryType = deliveryType;
+    if (deliveryAddress) updateFields.deliveryAddress = deliveryAddress;
+
+    const updatedPackage = await Package.findOneAndUpdate(
+      { packageId: req.params.id, userId: req.user.id },
+      { $set: updateFields },
+      { new: true }
+    );
+
+    if (!updatedPackage) {
+      return res.status(404).json({ message: 'Package not found' });
+    }
+
+    // fetch the user email
+    const emailBody = `
+    <h3>Package Delivery Details Updated</h3>
+    <p>Your package with ID <strong>${updatedPackage.packageId}</strong> has been updated.</p>
+    <p><strong>New Delivery Type:</strong> ${updatedPackage.deliveryType}</p>
+    ${
+      updatedPackage.deliveryAddress
+        ? `<p><strong>New Delivery Address:</strong> ${updatedPackage.deliveryAddress.street}, ${updatedPackage.deliveryAddress.city}, ${updatedPackage.deliveryAddress.state}, ${updatedPackage.deliveryAddress.zipCode}</p>`
+        : ''
+    }
+    <p>Thank you for choosing our service!</p>
+  `;
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: userEmail,
+      subject: 'Package Delivery Details Updated',
+      html: emailBody
+    });
+    console.log('Email sent successfully to', userEmail);
+  } catch (emailError) {
+    console.error('Error sending email:', emailError.message);
+  }
+    res.json(updatedPackage);
+  } catch (err) {
+    console.error('Erro updating delivery details:', err.message);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+// package update deliveery status
+router.put('/:id/status', authMiddleware, async (req, res) =>{
+  try {
+    const { status } = req.body;
+    console.log('Request Body:', req.body);
+    console.log('Package ID:', req.params.id);
+    console.log('Authenticated User ID:', req.user.id);
+
+    if (!['Pending', 'In-Transit', 'Delivered'].includes(status)) {
+      return res.status(400).json({ message: 'Invali status' });
+    }
+    const updatePackage = await Package.findOneAndUpdate(
+      { packageId: req.params.id, userId: req.userId },
+      { $set: { status } },
+      { new: true }
+    );
+    if (!updatePackage) {
+      return res.status(404).json({ message: 'Package not found' });
+    }
+
+    // fetch user email
+    const user = await User.findById(req.user.id);
+    const userEmail = user.email;
+    // email notifcation
+    const emailBody = `
+      <h3>Package Status Updated</h3>
+      <p>Your package with ID <strong>${updatedPackage.packageId}</strong> has a new status.</p>
+      <p><strong>New Status:</strong> ${updatedPackage.status}</p>
+      <p>Thank you for choosing our service!</p>
+    `;
+    try {
+      await transporter.sendMail({
+        from: process.env.Email,
+        to: userEmail,
+        subject: 'Package Status Updated',
+        html: emailBody
+      });
+      console.log('Email sent successfully', userEmail);
+    } catch (emailError) {
+      console.error('Error sending email:', emailError.message);
+    }
+    console.log('Updated Package:', updatedPackage);
+    res.json(updatePackage);
+  } catch (err) {
+    console.error('Error updating delivery status:', err.message);
+    res.status(500).json({ mssage: 'Server Error' });
+  }
+});
+
+
+
+
 module.exports = router;

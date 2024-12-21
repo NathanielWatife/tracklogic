@@ -8,6 +8,7 @@ require('dotenv').config();
 // const for auth
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
+const packageRoutes = require('./routes/package');
 
 
 const app = express();
@@ -33,8 +34,7 @@ app.get('/', (req, res) => res.send('API is running...'));
 // routes for register
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/packages', packageRoutes);
 
 // start the server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

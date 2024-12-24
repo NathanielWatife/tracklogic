@@ -11,6 +11,11 @@ const PackageSchema = new mongoose.Schema({
     deliveryAddress: { street: String, city: String, state: String, zipCode: String, landmark: String },
     price: { type: Number, required: true },
     status: { type: String, enum: ['Pending', 'In-Transit', 'Delivered'], default: 'Pending',},
+    currentLocation: {
+        latitude: { type: Number, required: false },
+        longitude: { type: Number, reuired: false },
+        timstamp: { type: Date, default: Date.now },
+    },
     createdAt: {type: Date, default: Date.now}
 });
 

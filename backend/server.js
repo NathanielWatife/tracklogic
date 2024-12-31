@@ -11,6 +11,9 @@ const http = require('http');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const packageRoutes = require('./routes/package');
+const driverRoutes = require('./routes/driver');
+const vehicleRoutes = require('./routes/vehicle')
+
 
 // initialize the app
 const app = express();
@@ -37,6 +40,22 @@ mongoose.connect(process.env.MONGO_URI)
 // real time geolocation tracking
 io.on('connection', (socket) => {
     console.log('A client connected:', socket.id);
+    // we authenticate the user on connection
+    socket.on('authenticate', async(token) => {
+        try {
+            const decode = jwt.verify(token, process.env.JWT_SECRET);
+            console.log('USer authnticated:', decoded);
+            // attach the user information to the socket or later use
+            socket.user=decoded;
+            // confirm authentication success
+            socket.emit('authenticated', { message: 'Authentication successsful' });
+        } catch(err) {
+            console.error('Authentication error:', err.message);
+            // emit an error then disconnect the socket
+            socket.emit('unauthorized', { messagE: 'Authentication failed' });
+            socket.disconnect(true);
+        }
+    });
 
     // listen for location updates
     socket.on('updateLocation', async ({ packageId, latitude, longitude }) => {
@@ -77,6 +96,8 @@ app.get('/', (req, res) => res.send('API is running...'));
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/packages', packageRoutes);
+app.use('/api/drivers', driverRoutes);
+app.use('/api/vehicles', vehicleRoutes);
 
 // start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

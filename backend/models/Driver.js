@@ -30,4 +30,4 @@ const DriverSchema = new mongoose.Schema({
     }
 });
 
-module.export = mongoose.model('Driver', DriverSchema);
+module.exports = mongoose.model('Driver', DriverSchema);

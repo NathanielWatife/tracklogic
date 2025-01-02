@@ -15,6 +15,40 @@ header h1 {
     margin: 0;
 }
 
+/* Navigation container */
+.nav-container {
+    display: flex;
+    align-items: center; /* Ensure vertical alignment for all children */
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+    align-items: center; /* Aligns the links vertically */
+    list-style: none;
+    gap: 20px;
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+}
+
+.nav-menu li {
+    display: flex; /*Ensure links align perfectly */
+    align-items: center; /* Center aligns the text */
+}
+
+.nav-menu li a:hover {
+    color: #007bff; /* Adjust hover color as needed */
+}
+
+/* Logo */
+.nav-logo a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333; /* Adjust as needed */
+}
+
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -29,4 +63,50 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
     padding: 5px;
+    line-height: 1; /* Ensures consistent line height */
+}
+
+/* Authentication Buttons */
+.auth-buttons {
+    display: flex;
+    align-items: center; /* Ensure the buttons are vertically centered */
+    gap: 10px /* Adds space between the buttons */
+}
+
+.auth-buttons .btn {
+    padding: 8px 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 1; /* Matches the line height of the links */
+    display: inline-flex; /*Ensure proper vertical alignment */
+    align-items: center; /*Centers text inside the button */
+}
+
+/* Outline Button */
+.auth-buttons .btn-outline {
+    background: none;
+    border: #fff;
+    color: #fff;
+
+}
+
+.auth-buttons .btn-outline:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Primary Button */
+.auth-buttons .btn-primary {
+    background: none;
+    color: #fff;
+    border-color: #fff;
+}
+
+.auth-buttons .btn-primary:hover {
+    background: #007bff;
+}
+
+.auth-buttons {
+    align-self: flex-end;
 }

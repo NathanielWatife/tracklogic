@@ -1,11 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 const authMiddleware = require('../middlewares/authMiddleware');
 const Package = require('../models/Package');
 const { v4: uuidv4 } = require('uuid');
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
-
 
 const router = express.Router();
 
@@ -23,8 +23,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-router.post(
-    '/',
+router.post('/',
     [
       authMiddleware,
       body('weight').isNumeric().withMessage('Weight must be a number'),
@@ -133,24 +132,34 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// update a package using it is ID
+// Update a package
 router.put('/:id', authMiddleware, async (req, res) => {
-    try {
-        const updates = req.body;
-        const updatedPackage = await Package.findOneAndAupdate(
-            { packageId: req.params.id, userId: req.user.id },
-            updates,
-            { new:true }
-        );
-        if (!updatePackage) {
-            return res.status(404).json({ message: 'Package not found' });
-        } 
-        res.json(upadtePackage);
-    } catch (err) {
-        console.error('Error updating package:', err.message);
-        res.status(500).json({ message: 'Server Error' });
+  try {
+    const { driverId, vehicleId, ...otherUpdates } = req.body;
+
+    const updates = {
+      ...otherUpdates,
+      ...(driverId && { driverId: new mongoose.Types.ObjectId(driverId) }),
+      ...(vehicleId && { vehicleId: new mongoose.Types.ObjectId(vehicleId) }),
+    };
+
+    const updatedPackage = await Package.findOneAndUpdate(
+      { packageId: req.params.id, userId: req.user.id },
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!updatedPackage) {
+      return res.status(404).json({ message: 'Package not found' });
     }
+
+    res.json(updatedPackage);
+  } catch (err) {
+    console.error('Error updating package:', err.message);
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
 });
+
 
 
 // delete a package using its ID

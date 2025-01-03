@@ -13,6 +13,7 @@ const profileRoutes = require('./routes/profile');
 const packageRoutes = require('./routes/package');
 const driverRoutes = require('./routes/driver');
 const vehicleRoutes = require('./routes/vehicle')
+const paymentRoutes = require('./routes/payment');
 
 
 // initialize the app
@@ -98,6 +99,8 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/vehicles', vehicleRoutes);
+app.use('/api/payment', paymentRoutes);
+
 
 // start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

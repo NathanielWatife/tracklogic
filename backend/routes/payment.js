@@ -40,6 +40,45 @@ router.post('/paystack/:packageId', authMiddleware, async (req, res) => {
 
 
 
+// Paystack Callback
+router.post('/paystack/callback', async (req, res) => {
+    try {
+      const { reference } = req.body;
+  
+      // Verify transaction with Paystack
+      const verifyResponse = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
+        headers: {
+          Authorization: `Bearer ${PAYSTACK_SECRET}`,
+        },
+      });
+  
+      const data = verifyResponse.data.data;
+      if (data.status === 'success') {
+        // Update the payment status in the database
+        const package = await Package.findOneAndUpdate(
+          { packageId: reference },
+          { $set: { 'payment.status': 'Paid', 'payment.paymentDate': new Date() } },
+          { new: true }
+        );
+  
+        if (package) {
+          console.log('Payment verified and updated for package:', package.packageId);
+          return res.json({ message: 'Payment verified successfully' });
+        }
+  
+        return res.status(404).json({ message: 'Package not found' });
+      }
+  
+      res.status(400).json({ message: 'Payment verification failed' });
+    } catch (err) {
+      console.error('Error verifying payment:', err.message);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+
+
+
 
 // we initialize the payment 
 router.post('/initiate/:packageId', authMiddleware, async (req, res) => {

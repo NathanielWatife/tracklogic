@@ -236,3 +236,13 @@ section {
 .dot.active {
     background: #fff;
 }
+
+/* dot Hover and Active States */
+.dot:hover {
+    background: rgba(255, 255, 255, 0.8); /*Brightens on hover */
+}
+
+.dot.active {
+    background: rgba(255, 255, 255, 1); /*Fully opaque for the active dot */
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Glow effect for the active dot */
+}

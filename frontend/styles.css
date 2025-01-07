@@ -246,3 +246,73 @@ section {
     background: rgba(255, 255, 255, 1); /*Fully opaque for the active dot */
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Glow effect for the active dot */
 }
+
+/* Tracking container  */
+.tracking-container {
+    display: flex;
+    position: relative; /* Added for absolute positioning */
+    gap: 1rem;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.tracking-container input {
+    flex: 1; /* Makes the input take up all available space */
+    padding: 1.1rem; /* Increased left padding for text spacing */
+    padding-right: 6rem; /* Keep space for button */
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Style for placeholder text */
+.tracking-container input::placeholder {
+    color: #999; /* Lighter grey for placholder */
+    opacity: 0.9;
+    letter-spacing: 0.5px; /* Added letter spacing fir better readabilty */
+}
+
+.tracking-container .btn {
+    position: absolute; /* Position inside container */
+    right: 0.5rem; /* Distance from right edge */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Perfect vertically centering */
+    padding: 0.5rem 1rem;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Hover and active states */
+.tracking-container .btn:hover {
+    background: #0056b3;
+}
+
+.tracking-container .btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        flex-direction: 1rem;
+    }
+    .tracking-container {
+        flex-direction: column;
+    }
+
+    .slider-btn {
+        padding: 0.8rem;
+        font-size: 16px;
+    }
+}
+
+

@@ -254,6 +254,7 @@ section {
     gap: 1rem;
     max-width: 550px;
     margin: 0 auto;
+    margin-bottom: 2rem; /* Add space below container */
 }
 
 .tracking-container input {
@@ -293,7 +294,18 @@ section {
 }
 
 .tracking-container .btn:active {
-    transform: translateY(1px);
+    transform: translateY(-50%) scale(0.98);
+}
+
+/* Added styles for the text below tracking container */
+.hero-content .tracking-info {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    color: white;
+    font-size: 0.98rem; /* Slightly smaller text */
+    margin-top: 2rem; /* Space from tracking container */
+    font-weight: 300; /* Lighter font weight */
 }
 
 /* Responsive Design */

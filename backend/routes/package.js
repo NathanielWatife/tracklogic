@@ -278,5 +278,35 @@ router.put('/:id/status', authMiddleware, async (req, res) =>{
 
 
 
+router.put('/:id/assign', authMiddleware, async (req, res) => {
+  try {
+    const { driverId, vehicleId } = req.body;
+
+    if (!driverId || vehicleId ) {
+      return res.status(400).json({ message: 'Driver ID and Vehicle ID are required' });
+    }
+    const updatedPackage = await Package.findByIdAndUpdate(
+      { packageId: req.params.id, userId: req.user.id },
+      {
+        $set: { driverId, vehicleId },
+      },
+      { new: true }
+    );
+    if (!updatedPackage) {
+      return res.status(404).json({ message: 'Package not found' });
+    }
+    res.json({
+      message: 'Driver and vehicle assigned successfully', 
+      package: updatedPackage,
+    });
+  } catch (err) {
+    console.error('Error assigning driver and vehicle:', err.message);
+    res.status(500).json({ message: 'Server Error', error: err.message })
+  };
+
+  
+});
+
+
 
 module.exports = router;

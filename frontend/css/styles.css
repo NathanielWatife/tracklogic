@@ -91,13 +91,14 @@ section {
 }
 
 .auth-buttons .btn {
-    padding: 8px 15px;
+    padding: 6px 12px;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     line-height: 1; /* Matches the line height of the links */
     display: inline-flex; /*Ensure proper vertical alignment */
     align-items: center; /*Centers text inside the button */
+    font-size: 0.9rem;
 }
 
 /* Outline Button */

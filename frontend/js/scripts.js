@@ -1,5 +1,25 @@
 // script.js
 
+// Wait for the DOM to be fully loaded before running any code
+document.addEventListener('DOMContentLoaded', function() {
+  // =========== DROPDOWN MENU ==============
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  dropdowns.forEach(dropdown => {
+    dropdown.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) { // Mobile devices only
+        this.classList.toggle('active');
+        e.stopPropagation()
+      }
+    });
+});
+
+
+
+
+
+});
+
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';
 

@@ -9,11 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
     dropdown.addEventListener('click', function(e) {
       if (window.innerWidth <= 768) { // Mobile devices only
         this.classList.toggle('active');
-        e.stopPropagation()
+        e.stopPropagation(); //Prevent event from bubbling up
       }
     });
 });
 
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function() {
+  if (window.innerWidth <= 768px) {
+    dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+  }
+});
 
 
 

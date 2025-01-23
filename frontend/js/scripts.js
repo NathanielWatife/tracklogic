@@ -23,6 +23,46 @@ document.addEventListener('click', function() {
 });
 
 
+// ============== IMAGE SLIDER =====================
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+const prevBtn = document.querySelector('prev');
+const nextBtn = document.querySelector('.next');
+let currentSlide = 0;
+let slideInterval;
+
+// Function to show a specific slide
+function showSlide(index) {
+  // Remove active class from all slides and dots
+  slides.forEach(slide => slide.classList.remove('active'));
+  dots.forEach(dot => dot.classList.remove('active'));
+
+  // Add active class to current slide and dot
+  slides[index].classList.add('active');
+  dots[index].classList.add('active');
+}
+
+// Function to show next slide
+function nextSlide() {
+  currentSlide++;
+  if (currentSlide >= slides.length) {
+    currentSlide = 0;
+  }
+  showSlide(currentSlide);
+}
+
+// Function to show previous slide
+function prevSlide() {
+  currentSlide--;
+  if (currentSlide < 0) {
+    currentSlide =slides.length - 1;
+  }
+  showSlide(currentSlide);
+}
+
+
+}
+
 
 
 });

@@ -12,16 +12,16 @@
         <div class="logo">
             <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" width="40" height="40">
         </div>
-
+        
         <!-- Navigation Container -->
         <nav class="nav-container">
             <div class="auth-buttons">
                 <button class="btn btn-outline"><a href="login.html">Log In</a></button>
-                <button class="btn btn-primary"><a href="signup.html">Sign Up</a></button>
+                <button class="btn btn-primary"><a href="index.html">Home</a></button>
             </div>
         </nav>
     </header>
-
+    
     <main class="auth-main">
         <div class="auth-card">
             <h1>Create a New Account</h1>
@@ -35,6 +35,10 @@
                     <input type="email" id="email" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
+                    <label for="Phone">Phone Number</label>
+                    <input type="text" id="phone" placeholder="Enter your Phonenumber" required>
+                </div>
+                <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
@@ -44,12 +48,14 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
+            <!-- loader -->
+             <div class="loading"></div>
             <p class="auth-switch">
                 Already have an account? <a href="login.html">Log In</a>
             </p>
         </div>
     </main>
-
+    
     <footer class="footer">
         <div class="footer-container">
             <!-- Footer Logo and Description -->
@@ -57,7 +63,7 @@
                 <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" class="footer-logo">
                 <p>TrackLogic is your trusted logistics partner, ensuring fast, reliable, and affordable deliveries nationwide.</p>
             </div>
-    
+            
             <!-- Quick Links -->
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -68,7 +74,7 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
-    
+            
             <!-- Contact Info -->
             <div class="footer-section">
                 <h4>Contact Us</h4>
@@ -76,7 +82,7 @@
                 <p>Phone: <a href="tel:+2347000000000">+234 700 000 0000</a></p>
                 <p>Address: Lagos, Nigeria</p>
             </div>
-    
+            
             <!-- Social Media Links -->
             <div class="footer-section">
                 <h4>Follow Us</h4>
@@ -88,12 +94,12 @@
                 </div>
             </div>
         </div>
-    
+        
         <!-- Copyright Notice -->
         <div class="footer-bottom">
             <p>&copy; 2025 TrackLogic. All rights reserved.</p>
         </div>
     </footer>
-    <script src="js/scripts.js" defer></script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>

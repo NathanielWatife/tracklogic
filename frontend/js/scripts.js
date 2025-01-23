@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Close dropdown when clicking outside
 document.addEventListener('click', function() {
-  if (window.innerWidth <= 768px) {
+  if (window.innerWidth <= 768) {
     dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
   }
 });

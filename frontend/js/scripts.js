@@ -48,6 +48,7 @@ function nextSlide() {
   if (currentSlide >= slides.length) {
     currentSlide = 0;
   }
+
   showSlide(currentSlide);
 }
 
@@ -55,13 +56,59 @@ function nextSlide() {
 function prevSlide() {
   currentSlide--;
   if (currentSlide < 0) {
-    currentSlide =slides.length - 1;
+    currentSlide = slides.length - 1;
   }
   showSlide(currentSlide);
 }
 
-
+// Start automatic slideshow
+function startSlideshow() {
+  slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
 }
+
+// Stop automatic slideshow
+function stopSlideshow() {
+  clearInterval(slideInterval);
+}
+
+// Event Listeners for navigation buttons
+nextBtn.addEventListener('click', () => {
+  stopSlideshow();
+  nextSlide();
+  startSlideshow();
+});
+
+prevBtn.Btn.addEventListener('click', () => {
+  stopSlideshow();
+  prevSlide();
+  startSlideshow();
+});
+
+// Event listeners for dots
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    stopSlideshow();
+    currentSlide = index;
+    nextSlide();
+    startSlideshow();
+  });
+});
+
+// Pause slideshow when hovering over slider
+const slider = document.querySelector('.slider');
+slider.addEventListener('mouseenter', stopSlideshow);
+slider.addEventListener('mouseleave', startSlideshow);
+
+// Start the slideshow initially
+startSlideshow();
+
+
+
+
+
+
+
+
 
 
 

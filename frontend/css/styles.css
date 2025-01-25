@@ -17,6 +17,31 @@ header h1 {
     margin: 0;
 }
 
+/* Mobile Navigation Styles */
+.mobile-nav-toggle {
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
 /* Navigation container */
 .nav-container {
     display: flex;
@@ -702,6 +727,76 @@ section {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .mobile-nav-toggle {
+        display: block; /* Show on mobile */
+    }
+
+    .nav-container {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Hide off-screen */
+        width: 80%;
+        height: 100vh;
+        background-color: #333;
+        padding: 80px 20px 20px;
+        transition: right 0.3s ease;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-container.active {
+        right: 0; /* Show nav when active */
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .nav-menu li {
+        width: 100%;
+    }
+
+    .nav-menu a {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-toggle {
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        width: 100%;
+        box-shadow: none;
+        background: #444;
+        padding-left: 1rem;
+        display: none;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu a {
+        color: #fff;
+        padding: 8px 0;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #555;
+    }
+
     .hero-content h1 {
         font-size: 2rem;
     }
@@ -709,6 +804,19 @@ section {
     .hero-content p {
         flex-direction: 1rem;
     }
+
+    .auth-buttons {
+        margin-top: 2rem;
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .auth-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
     .tracking-container {
         flex-direction: column;
     }
@@ -716,22 +824,6 @@ section {
     .slider-btn {
         padding: 0.8rem;
         font-size: 16px;
-    }
-    
-    .dropdown-menu {
-        position: static;
-        display: none;
-        box-shadow: none;
-        background-color: #f5f5f5;
-        min-width: 100%;
-    }
-
-    .dropdown.active .dropdown-menu {
-        display: block;
-    }
-
-    .dropdown-toggle::after {
-        right: 8px;
     }
 
     .services h2 {

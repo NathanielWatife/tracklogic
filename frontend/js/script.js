@@ -3,6 +3,164 @@
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';
 
+
+// Handle Tracking Form Submission
+document.getElementById('track-form')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const trackingId = document.getElementById('tracking-id').value.trim();
+
+    if (!trackingId) {
+        alert('Please enter a valid tracking ID.');
+        return;
+    }
+
+    try {
+        // Fetch tracking details from the backend
+        const response = await fetch(`${BASE_URL}/packages/${trackingId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Update the tracking results section
+            document.getElementById('package-id').textContent = data.packageId || 'N/A';
+            document.getElementById('status').textContent = data.status || 'N/A';
+            document.getElementById('current-location').textContent = data.currentLocation
+                ? `${data.currentLocation.latitude}, ${data.currentLocation.longitude}`
+                : 'Location not available';
+            document.getElementById('estimated-delivery').textContent = data.estimatedDelivery || 'N/A';
+
+            // Show tracking results
+            document.getElementById('tracking-results').classList.remove('hidden');
+        } else {
+            alert(data.message || 'Failed to fetch tracking details.');
+        }
+    } catch (err) {
+        console.error('Error fetching tracking details:', err.message);
+        alert('An error occurred. Please try again.');
+    }
+});
+// track end
+
+
+
+
+
+
+
+// profile auth
+
+// Load user profile data
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('You must be logged in to access this page.');
+        window.location.href = 'login.html';
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/profile`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('phone').value = user.phone;
+        } else {
+            throw new Error('Failed to fetch profile details');
+        }
+    } catch (err) {
+        console.error('Error loading profile:', err.message);
+        alert('An error occurred. Please try again.');
+    }
+});
+
+// Update profile
+document.getElementById('profile-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+
+    try {
+        const response = await fetch(`${BASE_URL}/profile`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, phone }),
+        });
+
+        if (response.ok) {
+            alert('Profile updated successfully.');
+        } else {
+            throw new Error('Failed to update profile.');
+        }
+    } catch (err) {
+        console.error('Error updating profile:', err.message);
+        alert('An error occurred. Please try again.');
+    }
+});
+
+// Change password
+document.getElementById('password-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const currentPassword = document.getElementById('current-password').value;
+    const newPassword = document.getElementById('new-password').value;
+    const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+    if (newPassword !== confirmNewPassword) {
+        alert('New passwords do not match.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/profile/password`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ currentPassword, newPassword }),
+        });
+
+        if (response.ok) {
+            alert('Password updated successfully.');
+        } else {
+            throw new Error('Failed to update password.');
+        }
+    } catch (err) {
+        console.error('Error updating password:', err.message);
+        alert('An error occurred. Please try again.');
+    }
+});
+
+
+// profile end
+
+
+
+
+
+
+
+
+
 // Function to check if the user is authenticated
 function isAuthenticated() {
   const token = localStorage.getItem('token');
@@ -45,21 +203,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// end auth
 
 
 
 
+// loader
+// show loader
+function showLoader() {
+  document.querySelector('.loader').style.display = 'block';
+}
+// hide loader
+function hideLoader() {
+  document.querySelector('.loader').style.display = 'none';
+}
 
-
-
-
-
-
+// end loader
 
 
 document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent the default form submission
   console.log('Signup form submitted!'); // Debugging
+  showLoader();
 
   // Collect form data safely
   const nameField = document.getElementById('name');
@@ -83,6 +248,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
 
   if (password !== confirmPassword) {
     alert('Passwords do not match');
+    hideLoader();
     return;
   }
 
@@ -108,6 +274,8 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
   } catch (error) {
     console.error('Error during signup:', error);
     alert('An error occurred. Please try again later.');
+  } finally {
+    hideLoader();
   }
 });
 
@@ -119,6 +287,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
 // Handle Login Form Submission
 document.getElementById('login-form')?.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent page reload
+  showLoader();
 
   // Collect form data
   const email = document.getElementById('email').value;
@@ -147,6 +316,8 @@ document.getElementById('login-form')?.addEventListener('submit', async (event) 
   } catch (error) {
     console.error('Error during login:', error);
     alert('An error occurred. Please try again later.');
+  } finally {
+    hideLoader();
   }
 });
 

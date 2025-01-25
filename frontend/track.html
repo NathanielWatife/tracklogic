@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackLogic - Track Package</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" width="40" height="40">
+        </div>
+        <nav class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="logout.html" id="logout">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="track-main">
+        <h1>Track Your Package</h1>
+        <form id="track-form">
+            <div class="form-group">
+                <label for="tracking-id">Enter Tracking ID</label>
+                <input type="text" id="tracking-id" placeholder="Tracking ID or Package ID" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Track Package</button>
+        </form>
+        <!-- Tracking Results -->
+        <div id="tracking-results" class="tracking-results hidden">
+            <h2>Tracking Details</h2>
+            <p><strong>Package ID:</strong> <span id="package-id"></span></p>
+            <p><strong>Status:</strong> <span id="status"></span></p>
+            <p><strong>Current Location:</strong> <span id="current-location"></span></p>
+            <p><strong>Estimated Delivery:</strong> <span id="estimated-delivery"></span></p>
+        </div>
+    </main>
+</body>
+</html>

@@ -286,63 +286,81 @@ function hideLoader() {
 // end loader
 
 
+// signup form 
+// Handle Signup Form Submission
 document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
-  event.preventDefault(); // Prevent the default form submission
-  console.log('Signup form submitted!'); // Debugging
-  showLoader();
+  event.preventDefault();
 
-  // Collect form data safely
-  const nameField = document.getElementById('name');
-  const emailField = document.getElementById('email');
-  const phoneField = document.getElementById('phone');
-  const passwordField = document.getElementById('password');
-  const confirmPasswordField = document.getElementById('confirm-password');
-
-  if (!nameField || !emailField || !phoneField || !passwordField || !confirmPasswordField) {
-    console.error('One or more fields are missing in the DOM');
-    return;
-  }
-
-  const name = nameField.value;
-  const email = emailField.value;
-  const phone = phoneField.value;
-  const password = passwordField.value;
-  const confirmPassword = confirmPasswordField.value;
-
-  console.log({ name, email, phone, password, confirmPassword });
-
-  if (password !== confirmPassword) {
-    alert('Passwords do not match');
-    hideLoader();
-    return;
-  }
-
-  // Proceed with the signup request
-  const payload = { name, email, phone, password };
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch(`${BASE_URL}/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+      const response = await fetch(`${BASE_URL}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      alert('Please check your Email to verify your account.');
-      alert('Signup successful! Redirecting to login page.');
-      window.location.href = 'login.html';
-    } else {
-      alert(data.message || 'Signup failed. Please try again.');
-    }
-  } catch (error) {
-    console.error('Error during signup:', error);
-    alert('An error occurred. Please try again later.');
-  } finally {
-    hideLoader();
+      if (response.ok) {
+          alert('Registration successful! Redirecting to login.');
+          window.location.href = 'login.html';
+      } else {
+          alert(data.message || 'Failed to register. Please try again.');
+      }
+  } catch (err) {
+      console.error('Error during registration:', err.message);
+      alert('An error occurred. Please try again later.');
   }
 });
+
+
+
+
+
+// admin registeration form
+// Handle Admin Registration
+document.getElementById('admin-register-form')?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+      alert('You are not authorized to perform this action.');
+      return;
+  }
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+
+  try {
+      const response = await fetch(`${BASE_URL}/admin/create-admin`, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, phone }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          alert('Admin account created successfully.');
+      } else {
+          alert(data.message || 'Failed to create admin account.');
+      }
+  } catch (err) {
+      console.error('Error creating admin:', err.message);
+      alert('An error occurred. Please try again later.');
+  }
+});
+
+
+
 
 
 

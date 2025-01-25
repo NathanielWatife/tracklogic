@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackLogic - Support</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" width="40" height="40">
+        </div>
+        <nav class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="logout.html" id="logout">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="support-main">
+        <h1>Support</h1>
+
+        <!-- FAQs Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq">
+                <h3>How do I track my package?</h3>
+                <p>Enter your tracking ID on the <a href="track.html">Track Page</a> to view the status and location of your package.</p>
+            </div>
+            <div class="faq">
+                <h3>How do I request a new shipment?</h3>
+                <p>Go to the <a href="shipnow.html">Ship Now Page</a> to create a new shipment request.</p>
+            </div>
+            <div class="faq">
+                <h3>What are the payment methods available?</h3>
+                <p>We support Bank Transfer, USSD payments, and Paystack integration.</p>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="contact-section">
+            <h2>Contact Support</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

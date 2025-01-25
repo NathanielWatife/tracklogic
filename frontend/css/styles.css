@@ -935,6 +935,7 @@ section {
 
     .nav-container.active {
         right: 0; /* Show nav when active */
+        z-index: 30;
     }
 
     .nav-menu {

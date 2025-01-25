@@ -2,30 +2,66 @@
 
 // Wait for the DOM to be fully loaded before running any code
 document.addEventListener('DOMContentLoaded', function() {
-  // =========== DROPDOWN MENU ==============
+  // =========== MOBILE NAVIGATION VARIABLES ==============
+  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+  const navContainer = document.querySelector('.nav-container');
   const dropdowns = document.querySelectorAll('.dropdown');
 
+  // Handle dropdowns on mobile
   dropdowns.forEach(dropdown => {
-    dropdown.addEventListener('click', function(e) {
-      if (window.innerWidth <= 768) { // Mobile devices only
-        this.classList.toggle('active');
-        e.stopPropagation(); //Prevent event from bubbling up
-      }
-    });
+    const dropdownToggle = dropdown.querySelector('a.dropdown-toggle');
+
+    if(dropdownToggle) {
+      dropdownToggle.addEventListener('click', function(e) {
+        if (window,innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+          e.stopPropagation();
+        }
+      });
+    }
+  });
+
+
+  // Toggle mobile menu
+mobileNavToggle.addEventListener('click', () => {
+  const isOpen = navContainer.classList.contains('active');
+  navContainer.classList.toggle('active');
+  mobileNavToggle.setAttribute('aria-expanded', !isOpen);
+  mobileNavToggle.classList.toggle('active');
+  
+  // Prevent body scrolling when menu is open
+document.body.style.overflow = isOpen ? 'auto' : this.hidden;
+
 });
 
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!navContainer.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+    navContainer.classList.remove('active');
+    mobileNavToggle.classList.remove('active');
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = 'auto';
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function() {
-  if (window.innerWidth <= 768) {
+    // Close all dropdowns
     dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
   }
 });
 
+// Close mobile menu when window is resized above mobile breakpoint
+window .addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    navContainer.classList.remove('active');
+    mobileNavToggle.classList.remove('active');
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = 'auto';
 
-// Mobile Navigation
-
-
+    // Reset all dropdowns
+    dropdowns.forEach(dropdown => {
+      dropdown.classList.remove('active');
+    });
+  }
+});
 
 // ============== IMAGE SLIDER =====================
 const slides = document.querySelectorAll('.slide');

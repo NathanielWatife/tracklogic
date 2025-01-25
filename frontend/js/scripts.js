@@ -23,13 +23,19 @@ document.addEventListener('click', function() {
 });
 
 
+// Mobile Navigation
+
+
+
 // ============== IMAGE SLIDER =====================
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
-const prevBtn = document.querySelector('prev');
+const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
+const slider = document.querySelector('.slider');
 let currentSlide = 0;
 let slideInterval;
+let isHovered = false;
 
 // Function to show a specific slide
 function showSlide(index) {
@@ -63,7 +69,9 @@ function prevSlide() {
 
 // Start automatic slideshow
 function startSlideshow() {
+  if (!isHovered) { // Only start if not hovered
   slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+  }
 }
 
 // Stop automatic slideshow
@@ -78,7 +86,7 @@ nextBtn.addEventListener('click', () => {
   startSlideshow();
 });
 
-prevBtn.Btn.addEventListener('click', () => {
+prevBtn.addEventListener('click', () => {
   stopSlideshow();
   prevSlide();
   startSlideshow();
@@ -89,30 +97,42 @@ dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
     stopSlideshow();
     currentSlide = index;
-    nextSlide();
+    showSlide(currentSlide);
+    // nextSlide();
     startSlideshow();
   });
 });
 
-// Pause slideshow when hovering over slider
-const slider = document.querySelector('.slider');
-slider.addEventListener('mouseenter', stopSlideshow);
-slider.addEventListener('mouseleave', startSlideshow);
+// Hover handlers
+slider.addEventListener('mouseenter', () => {
+  isHovered = true;
+  stopSlideshow();
+});
+
+slider.addEventListener('mouseleave', () => {
+  isHovered = false;
+  startSlideshow();
+});
 
 // Start the slideshow initially
 startSlideshow();
 
-
-
-
-
-
-
-
-
-
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  stopSlideshow();
+});
 
 });
+
+// ============== TRACKING FUNCTIONALIY ==========
+
+
+
+
+
+
+
+
 
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';

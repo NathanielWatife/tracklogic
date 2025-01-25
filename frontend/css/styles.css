@@ -490,6 +490,96 @@ section {
 
 
 /* DevNath */
+/* Profile Page Styles */
+.profile-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f7f8fc;
+}
+
+.profile-card {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.profile-card h1, .profile-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Track Package Page Styles */
+.track-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f7f8fc;
+}
+
+.track-main h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+#track-form {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tracking-results {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+}
+
+.tracking-results.hidden {
+    display: none;
+}
+
+.tracking-results h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.tracking-results p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+#tracking-id {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+#tracking-id:focus {
+    border-color: #f39c12;
+    outline: none;
+}
+
 
 /* Prloading  */
 /* Add Fade-In and Fade-Out Animation */

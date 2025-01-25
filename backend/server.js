@@ -15,6 +15,7 @@ const packageRoutes = require('./routes/package');
 const driverRoutes = require('./routes/driver');
 const vehicleRoutes = require('./routes/vehicle');
 const paymentRoutes = require('./routes/payment');
+const adminRoutes = require('./routes/admin');
 
 // Initialize Express app and server
 const app = express();
@@ -80,6 +81,7 @@ app.use('/api/packages', packageRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Start server
 const PORT = process.env.PORT;

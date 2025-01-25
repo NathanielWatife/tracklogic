@@ -515,6 +515,30 @@ section {
 
 
 /* DevNath */
+/* Ship Now Page Styles */
+.shipnow-main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.shipnow-main h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #333;
+}
+
+#shipment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+
+
+
 
 
 /* Support Page Styles */

@@ -3,6 +3,41 @@
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';
 
+// config for ship now
+document.getElementById('shipment-form')?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const pickupAddress = document.getElementById('pickup-address').value;
+  const deliveryAddress = document.getElementById('delivery-address').value;
+  const weight = document.getElementById('package-weight').value;
+  const transitType = document.getElementById('transit-type').value;
+
+  try {
+      const response = await fetch('http://localhost:5000/api/packages', {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ pickupAddress, deliveryAddress, weight, transitType }),
+      });
+
+      if (response.ok) {
+          alert('Shipment requested successfully.');
+      } else {
+          alert('Failed to request shipment. Please try again.');
+      }
+  } catch (err) {
+      console.error('Error requesting shipment:', err.message);
+  }
+});
+
+
+
+
+
+
+
 // functinalities for support page
 document.getElementById('contact-form')?.addEventListener('submit', async (event) => {
   event.preventDefault();

@@ -492,6 +492,19 @@ section {
 /* DevNath */
 
 /* Prloading  */
+/* Add Fade-In and Fade-Out Animation */
+.loading .loader {
+    display: block;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
 /* Loader Styles */
 .loader {
     display: none; /* Hidden by default */

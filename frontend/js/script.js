@@ -3,6 +3,9 @@
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';
 
+
+
+
 // Function to check if the user is authenticated
 function isAuthenticated() {
   const token = localStorage.getItem('token');
@@ -51,15 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
+// show loader
+function showLoader() {
+  document.querySelector('.loader').style.display = 'block';
+}
+// hide loader
+function hideLoader() {
+  document.querySelector('.loader').style.display = 'none';
+}
 
 
 
 document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent the default form submission
   console.log('Signup form submitted!'); // Debugging
+  showLoader();
 
   // Collect form data safely
   const nameField = document.getElementById('name');
@@ -83,6 +92,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
 
   if (password !== confirmPassword) {
     alert('Passwords do not match');
+    hideLoader();
     return;
   }
 
@@ -108,6 +118,8 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
   } catch (error) {
     console.error('Error during signup:', error);
     alert('An error occurred. Please try again later.');
+  } finally {
+    hideLoader();
   }
 });
 
@@ -119,6 +131,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
 // Handle Login Form Submission
 document.getElementById('login-form')?.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent page reload
+  showLoader();
 
   // Collect form data
   const email = document.getElementById('email').value;
@@ -147,6 +160,8 @@ document.getElementById('login-form')?.addEventListener('submit', async (event) 
   } catch (error) {
     console.error('Error during login:', error);
     alert('An error occurred. Please try again later.');
+  } finally {
+    hideLoader();
   }
 });
 

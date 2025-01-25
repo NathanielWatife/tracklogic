@@ -515,6 +515,68 @@ section {
 
 
 /* DevNath */
+
+
+/* Support Page Styles */
+.support-main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.support-main h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.faq-section {
+    margin-bottom: 40px;
+}
+
+.faq-section h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.faq {
+    margin-bottom: 15px;
+}
+
+.faq h3 {
+    font-size: 1.2rem;
+    color: #f39c12;
+}
+
+.faq p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.contact-section h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-section textarea {
+    resize: none;
+}
+
+
+
+
+
+
 /* Profile Page Styles */
 .profile-main {
     display: flex;

@@ -3,6 +3,36 @@
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';
 
+// functinalities for support page
+document.getElementById('contact-form')?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+
+  try {
+      const response = await fetch('http://localhost:5000/api/support', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message }),
+      });
+
+      if (response.ok) {
+          alert('Message sent successfully.');
+      } else {
+          alert('Failed to send message. Please try again.');
+      }
+  } catch (err) {
+      console.error('Error sending message:', err.message);
+  }
+});
+
+
+
+
+
+
 
 // Handle Tracking Form Submission
 document.getElementById('track-form')?.addEventListener('submit', async (event) => {

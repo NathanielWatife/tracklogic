@@ -414,3 +414,187 @@ document.getElementById('logout')?.addEventListener('click', (event) => {
   alert('You have been logged out.');
   window.location.href = 'login.html'; // Redirect to login page
 });
+
+
+
+// functionality to manage-user
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      alert('Unauthorized access');
+      window.location.href = 'unauthorized.html';
+  }
+
+  const usersTableBody = document.querySelector('#users-table tbody');
+
+  // Fetch users
+  try {
+      const response = await fetch('http://localhost:5000/api/admin/users', {
+          headers: { Authorization: `Bearer ${token}` },
+      });
+      const users = await response.json();
+
+      if (response.ok) {
+          users.forEach((user) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${user._id}</td>
+                  <td>${user.name}</td>
+                  <td>${user.email}</td>
+                  <td>${user.phone}</td>
+                  <td>${user.role}</td>
+                  <td>
+                      <button onclick="promoteUser('${user._id}')">Promote</button>
+                      <button onclick="deleteUser('${user._id}')">Delete</button>
+                  </td>
+              `;
+              usersTableBody.appendChild(row);
+          });
+      } else {
+          alert(users.message || 'Failed to fetch users.');
+      }
+  } catch (err) {
+      console.error('Error fetching users:', err.message);
+  }
+});
+
+async function promoteUser(userId) {
+  const token = localStorage.getItem('token');
+  if (!confirm('Are you sure you want to promote this user to Admin?')) return;
+
+  try {
+      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+          method: 'PUT',
+          headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ role: 'Admin' }),
+      });
+
+      if (response.ok) {
+          alert('User promoted successfully.');
+          location.reload();
+      } else {
+          alert('Failed to promote user.');
+      }
+  } catch (err) {
+      console.error('Error promoting user:', err.message);
+  }
+}
+
+async function deleteUser(userId) {
+  const token = localStorage.getItem('token');
+  if (!confirm('Are you sure you want to delete this user?')) return;
+
+  try {
+      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+          alert('User deleted successfully.');
+          location.reload();
+      } else {
+          alert('Failed to delete user.');
+      }
+  } catch (err) {
+      console.error('Error deleting user:', err.message);
+  }
+}
+
+
+
+// manage package functionality
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  const packagesTableBody = document.querySelector('#packages-table tbody');
+
+  try {
+      const response = await fetch('http://localhost:5000/api/admin/packages', {
+          headers: { Authorization: `Bearer ${token}` },
+      });
+      const packages = await response.json();
+
+      if (response.ok) {
+          packages.forEach((pkg) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${pkg.packageId}</td>
+                  <td>${pkg.userId}</td>
+                  <td>${pkg.status}</td>
+                  <td>${pkg.transitType}</td>
+                  <td>${pkg.deliveryType}</td>
+                  <td>
+                      <button onclick="updateStatus('${pkg.packageId}')">Update Status</button>
+                      <button onclick="deletePackage('${pkg.packageId}')">Delete</button>
+                  </td>
+              `;
+              packagesTableBody.appendChild(row);
+          });
+      } else {
+          alert(packages.message || 'Failed to fetch packages.');
+      }
+  } catch (err) {
+      console.error('Error fetching packages:', err.message);
+  }
+});
+
+async function updateStatus(packageId) {
+  const token = localStorage.getItem('token');
+  const status = prompt('Enter new status (Pending, In Transit, Delivered):');
+  if (!status) return;
+
+  try {
+      const response = await fetch(`http://localhost:5000/api/admin/packages/${packageId}`, {
+          method: 'PUT',
+          headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+          alert('Package status updated successfully.');
+          location.reload();
+      } else {
+          alert('Failed to update package status.');
+      }
+  } catch (err) {
+      console.error('Error updating status:', err.message);
+  }
+}
+
+
+
+
+// functionality for managing driver
+async function addDriver() {
+  const name = prompt('Enter driver name:');
+  const email = prompt('Enter driver email:');
+  const phone = prompt('Enter driver phone:');
+  if (!name || !email || !phone) return;
+
+  const token = localStorage.getItem('token');
+  try {
+      const response = await fetch('http://localhost:5000/api/admin/drivers', {
+          method: 'POST',
+          headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, phone }),
+      });
+
+      if (response.ok) {
+          alert('Driver added successfully.');
+          location.reload();
+      } else {
+          alert('Failed to add driver.');
+      }
+  } catch (err) {
+      console.error('Error adding driver:', err.message);
+  }
+}

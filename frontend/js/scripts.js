@@ -181,10 +181,27 @@ trackButton.addEventListener('click', function(e) {
   }
 });
 
+
+// ============ CONTACT FORM =============
+const contactForm = document.getElementById('contact-form');
+
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Get form data
+  const formData = new FormData(this);
+  const formObject = {};
+  formData.forEach((value, key) => formObject[key] = value);
+
+  // Here you would typically send this data to your backend
+  console.log('Form submitted with data:', formObject);
+  alert('Thank you for your message! We will get back to you shortly.');
+
+  // Reset form
+  this.reset();
 });
 
-
-
+});
 
 
 

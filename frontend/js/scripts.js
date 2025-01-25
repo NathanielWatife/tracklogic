@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(dropdownToggle) {
       dropdownToggle.addEventListener('click', function(e) {
-        if (window,innerWidth <= 768) {
+        if (window.innerWidth <= 768) {
           e.preventDefault();
           dropdown.classList.toggle('active');
           e.stopPropagation();
@@ -31,7 +31,7 @@ mobileNavToggle.addEventListener('click', () => {
   mobileNavToggle.classList.toggle('active');
   
   // Prevent body scrolling when menu is open
-document.body.style.overflow = isOpen ? 'auto' : this.hidden;
+document.body.style.overflow = isOpen ? 'auto' : 'hidden';
 
 });
 
@@ -116,17 +116,21 @@ function stopSlideshow() {
 }
 
 // Event Listeners for navigation buttons
+if(nextBtn) {
 nextBtn.addEventListener('click', () => {
   stopSlideshow();
   nextSlide();
   startSlideshow();
 });
+}
 
+if (prevBtn) {
 prevBtn.addEventListener('click', () => {
   stopSlideshow();
   prevSlide();
   startSlideshow();
 });
+}
 
 // Event listeners for dots
 dots.forEach((dot, index) => {
@@ -158,12 +162,26 @@ window.addEventListener('beforeunload', () => {
   stopSlideshow();
 });
 
+// ============== TRACKING FUNCTIONALIY ==========
+const trackingForm = document.querySelector('.tracking-container');
+const trackingInput = document.getElementById('tracking-input');
+const trackButton = document.getElementById('track-button');
+
+trackButton.addEventListener('click', function(e) {
+  e.preventDefault();
+  const trackingId = trackingInput.value.trim();
+
+  if (trackingId) {
+    // Here you would typically make an API call to your backend
+    alert(`Tracking shipment with Id: ${trackingId}`);
+    // Reset input
+    trackingInput.value = '';
+  } else {
+    alert('Please enter a tracking number');
+  }
 });
 
-// ============== TRACKING FUNCTIONALIY ==========
-
-
-
+});
 
 
 

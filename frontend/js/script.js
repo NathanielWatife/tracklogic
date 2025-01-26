@@ -223,8 +223,7 @@ function hideLoader() {
 
 document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent the default form submission
-  console.log('Signup form submitted!'); // Debugging
-  showLoader();
+  console.log('Signup form submitted!'); 
 
   // Collect form data safely
   const nameField = document.getElementById('name');
@@ -243,12 +242,9 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
   const phone = phoneField.value;
   const password = passwordField.value;
   const confirmPassword = confirmPasswordField.value;
-
-  console.log({ name, email, phone, password, confirmPassword });
-
+  
   if (password !== confirmPassword) {
     alert('Passwords do not match');
-    hideLoader();
     return;
   }
 

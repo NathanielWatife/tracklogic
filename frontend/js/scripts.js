@@ -253,23 +253,65 @@ handleTrackingPage();
 
 
 // ============ CONTACT FORM =============
-const contactForm = document.getElementById('contact-form');
+// const contactForm = document.getElementById('contact-form');
 
-contactForm.addEventListener('submit', function(e) {
-  e.preventDefault();
+// contactForm.addEventListener('submit', function(e) {
+//   e.preventDefault();
 
-  // Get form data
-  const formData = new FormData(this);
-  const formObject = {};
-  formData.forEach((value, key) => formObject[key] = value);
+//   // Get form data
+//   const formData = new FormData(this);
+//   const formObject = {};
+//   formData.forEach((value, key) => formObject[key] = value);
 
-  // Here you would typically send this data to your backend
-  console.log('Form submitted with data:', formObject);
-  alert('Thank you for your message! We will get back to you shortly.');
+//   // Here you would typically send this data to your backend
+//   console.log('Form submitted with data:', formObject);
+//   alert('Thank you for your message! We will get back to you shortly.');
 
-  // Reset form
-  this.reset();
-});
+//   // Reset form
+//   this.reset();
+// });
+
+// Handle Contact Form Submission
+function handleContactForm() {
+  const contactForm = document.getElementById('contact-form');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = new FormData(this);
+      const formObject = {};
+      formData.forEach((value, key) => formObject[key] = value);
+
+      try {
+        // Show loading state
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+
+        // Stimulate API call (replace with actual API call)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Show success message
+        alert('Thank you for your message! We will get back to you shortly.');
+        contactForm.reset();
+      }
+      catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error sending your message. Please try again.');
+      }
+      finally{
+        // Reset button state
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        submitButton.textContent = 'Send Message';
+        submitButton.disabled = false;
+      }
+    });
+  }
+}
+handleContactForm();
 
 });
 

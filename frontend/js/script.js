@@ -292,11 +292,30 @@ function hideLoader() {
 // end loader
 
 
+<<<<<<< HEAD
+=======
+document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
+  event.preventDefault(); // Prevent the default form submission
+  console.log('Signup form submitted!'); 
+>>>>>>> 0b74d88728f039cdad373448592d69e1ead97493
 
 
 
+<<<<<<< HEAD
 
 
+=======
+  const name = nameField.value;
+  const email = emailField.value;
+  const phone = phoneField.value;
+  const password = passwordField.value;
+  const confirmPassword = confirmPasswordField.value;
+  
+  if (password !== confirmPassword) {
+    alert('Passwords do not match');
+    return;
+  }
+>>>>>>> 0b74d88728f039cdad373448592d69e1ead97493
 
 
 // config for ship now

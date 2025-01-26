@@ -9,6 +9,7 @@ router.post('/', async (req, res) => {
 
     try {
         const vehicle = new Vehicle({ vehicleType, licensePlate, model, capacity });
+        console.log(vehicle);
         const savedVehicle = await vehicle.save();
         res.status(201).json(savedVehicle);
     } catch (err) {

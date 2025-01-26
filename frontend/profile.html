@@ -9,14 +9,47 @@
 </head>
 <body>
     <header class="header">
+        <!-- Logo on the Left -->
         <div class="logo">
-            <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" width="40" height="40">
+            <a href="index.html">                
+                <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" width="40" height="40">
+            </a>
         </div>
+
+        <!-- Hamburger menu button -->
+         <button class="mobile-nav-toggle" aria-controls="nav-container" aria-expanded="false">
+            <span class="sr-only">Menu</span>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+         </button>
+
+        <!-- Navigation Container -->
         <nav class="nav-container">
+            <!-- Navigation menu links in the middle -->
             <ul class="nav-menu">
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="logout.html" id="logout">Log Out</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="support.html">Contact</a></li>
+                
+                <!-- For Service dropdown -->
+                 <li class="dropdown">
+                    <a class="dropdown-toggle">Services</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="shipnow.html">Ship now</a></li>
+                        <li><a href="#interstate shipping">Interstate shipping</a></li>
+                        <li><a href="track.html">Track me</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </li>
             </ul>
+            <!-- Authentication buttons on the right -->
+            <div class="auth-buttons">
+                <button class="btn btn-outline"><a href="login.html">Log In</a></button>
+                <button class="btn btn-primary"><a href="signup.html">Sign Up</a></button>
+            </div>
         </nav>
     </header>
 
@@ -57,5 +90,40 @@
             </form>
         </div>
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Logo and Description -->
+            <div class="footer-section">
+                <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" class="footer-logo">
+                <p>TrackLogic is your trusted logistics partner, ensuring fast, reliable, and affordable deliveries nationwide.</p>
+            </div>
+    
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="support.html">Services</a></li>
+                    
+                </ul>
+            </div>
+    
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: <a href="mailto:support@tracklogic.com">support@tracklogic.com</a></p>
+                <p>Phone: <a href="tel:+2347000000000">+234 700 000 0000</a></p>
+                <p>Address: Lagos, Nigeria</p>
+            </div>
+
+        </div>
+    
+        <!-- Copyright Notice -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 TrackLogic. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/scripts.js" defer></script>
 </body>
 </html>

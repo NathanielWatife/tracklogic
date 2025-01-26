@@ -163,7 +163,6 @@ window.addEventListener('beforeunload', () => {
 });
 
 // ============== TRACKING FUNCTIONALIY ==========
-const trackingForm = document.querySelector('.tracking-container');
 const trackingInput = document.getElementById('tracking-input');
 const trackButton = document.getElementById('track-button');
 
@@ -189,6 +188,7 @@ function handleHomePageTracking() {
   if (trackingInput && trackButton) {
     trackButton.addEventListener('click', (e) => {
       const trackingId = trackingInput.value.trim();
+
       if(trackingId) {
         // Add tracking ID to url as a parameter
         e.preventDefault();
@@ -199,7 +199,7 @@ function handleHomePageTracking() {
 }
 
 // Function to handle tracking page
-function handleTrackingPage() {
+const handleTrackingPage = () => {
   const trackForm = document.getElementById('track-form');
   const trackingResults = document.getElementById('tracking-results');
 
@@ -235,41 +235,40 @@ function handleTrackingPage() {
 
           // Show results
           trackingResults.classList.remove('hidden');
-        }
-        catch (error) {
+        } catch (error) {
           alert('Error tracking package. Please try again.');
-        }
-        finally {
+        } finally {
           // Reset button text
           trackForm.querySelector('button').textContent = 'Track Package';
         }
       }
     });
   }
-}
+};
+
 handleHomePageTracking();
 handleTrackingPage();
 
 
 
 // ============ CONTACT FORM =============
-// const contactForm = document.getElementById('contact-form');
+const contactForm = document.getElementById('contact-form');
 
-// contactForm.addEventListener('submit', function(e) {
-//   e.preventDefault();
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
 
-//   // Get form data
-//   const formData = new FormData(this);
-//   const formObject = {};
-//   formData.forEach((value, key) => formObject[key] = value);
+  // Get form data
+  const formData = new FormData(this);
+  const formObject = {};
+  formData.forEach((value, key) => formObject[key] = value);
 
-//   // Here you would typically send this data to your backend
-//   console.log('Form submitted with data:', formObject);
-//   alert('Thank you for your message! We will get back to you shortly.');
+  // Here you would typically send this data to your backend
+  console.log('Form submitted with data:', formObject);
+  alert('Thank you for your message! We will get back to you shortly.');
 
-//   // Reset form
-//   this.reset();
-// });
+  // Reset form
+  this.reset();
+});
 
 // Handle Contact Form Submission
 function handleContactForm() {
@@ -283,11 +282,11 @@ function handleContactForm() {
       const formData = new FormData(this);
       const formObject = {};
       formData.forEach((value, key) => formObject[key] = value);
-
+      
       try {
         // Show loading state
         const submitButton = contactForm.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
+        // const originalButtonText = submitButton.textContent;
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
 

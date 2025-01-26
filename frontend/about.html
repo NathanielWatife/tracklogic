@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrackLogic - Logistics Services</title>
+    <title>About Us - TrackLogic</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="./js/scripts.js"></script>
 </head>
@@ -28,8 +28,8 @@
         <nav class="nav-container">
             <!-- Navigation menu links in the middle -->
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <!-- For Service dropdown -->
                  <li class="dropdown">
@@ -42,6 +42,7 @@
                     </ul>
                 </li>
             </ul>
+
             <!-- Authentication buttons on the right -->
             <div class="auth-buttons">
                 <button class="btn btn-outline"><a href="login.html">Log In</a></button>
@@ -50,100 +51,68 @@
         </nav>
     </header>
 
-    <!-- Hero Section with Sliding Images -->
-    <section class="hero">
-        <!-- Slider container -->
-        <div class="slider">
-            <!-- Individual slides -->
-             <div class="slide active">
-                <img src="img/Slide 1.jpg" alt="Logistics service 1">
-             </div>
-             <div class="slide">
-                <img src="img/slide 2.jpg" alt="Logistics service 2">
-             </div>
-             <div class="slide">
-                <img src="img/slide 3.jpeg" alt="Logistics service 3">
-             </div>
-             <div class="slide">
-                <img src="img/slide 4.jpg" alt="Logistics service 4">
-             </div>
-             <div class="slide">
-                <img src="img/Slide 5.jpeg" alt="Logistics service 5">
-             </div>
-             <div class="slide">
-                <img src="img/slide 6.jpg" alt="Logistics service 6">
-             </div>
-
-            <!-- Navigation arrows -->
-             <button class="slider-btn prev">&#10094;</button>
-             <button class="slider-btn next">&#10095;</button>
-
-             <!-- Slide indicators -->
-            <div class="slider-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+    <!-- Main Content -->
+    <main>
+        <!-- About Hero Section -->
+        <section class="about-hero">
+            <div class="about-hero-image">
+                <img src="img/Slide 1.jpg" alt="TrackLogic Logistics Operations">
             </div>
-        </div>
-        
-        <!-- Hero section content -->
-        <div class="hero-content">
-            <h1>TrackLogic</h1>
-            <p> Tracklogic available to move your item to your preferred location </p>
-            <!-- Tracking Input Container -->
-            <div class="tracking-container">
-                <input type="text" placeholder="Input tracking ID / Alphacode" id="tracking-input">
-                <button class="btn" id="track-button">Search</button>
+            <div class="about-hero-content">
+                <h1>About TrackLogic</h1>
+                <p>Your Trusted Logistics Partner in Nigeria</p>
             </div>
-            <!-- Added text below tracking container -->
-            <p class="tracking-info">Track shipment / Find and ship a product using Alphacode</p>
-        </div>
-    </section>
+        </section>
 
-     <!-- Service Section -->
-    <section class="services" id="services">
-        <h2>Our Services</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <img src="img/deliver now-icon.jpg" alt="Ship now">
-                <h3>Ship now</h3>
-                <p>Request Pick up, Delivery or Xpress Drop off within state</p>
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2>Our Story</h2>
+                    <p>TrackLogic is a leading logistics company dedicated to providing efficient and reliable delievry services across Nigeria. With our state-of-the-art tracking system and committed team, we ensure your packages reach their destination safely and on time.</p>
+
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">📦</div>
+                            <h3>Fast Delivery</h3>
+                            <p>Express delivery services ensuring your pacakges arrive on schedule.</p>
+                        </div>
+                        <div class="feature">
+                            <div class="features-icon">🚛</div>
+                            <h3>Nationwide Coverage</h3>
+                            <p>Extensive network covering all states in Nigeria.</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📱</div>
+                            <h3>Real-time Tracking</h3>
+                            <p>Track your shipments anytime, anywhere with our advanced tracking system.</p>
+                        </div>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h4>5000+</h4>
+                            <p>Deliveries Completed</p>
+                        </div>
+                        <div class="stat">
+                            <h4>36</h4>
+                            <p>States Covered</p>
+                        </div>
+                        <div class="stat">
+                            <h4>98%</h4>
+                            <p>Customer Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="service-card">
-                <img src="img/Interstate delivery icon.jpg" alt="Interstate">
-                <h3>Interstate shipping</h3>
-                <p>Ship from Lagos to other state within Nigeria</p>
-            </div>
-            <div class="service-card">
-                <img src="img/Chat with us icon.jpg" alt="Support">
-                <h3>24/7 Support</h3>
-                <p>Always here to help you</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <h2>Contact Us</h2>
-        <div class="contact-container">
-            <form id="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-        </div>
-     </section>
-
-
-     <!-- footer -->
-      <footer class="footer">
+        </section>
+    </main>
+     
+    <!-- footer -->
+    <footer class="footer">
         <div class="footer-container">
             <!-- Footer Logo and Description -->
-            <div class="footer-section">
+             <div class="footer-section">
                 <img src="img/Logistics Logo.jpeg" alt="TrackLogic Logo" class="footer-logo">
                 <p>TrackLogic is your trusted logistics partner, ensuring fast, reliable, and affordable deliveries nationwide.</p>
             </div>

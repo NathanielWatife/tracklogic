@@ -2,34 +2,76 @@
 
 // Wait for the DOM to be fully loaded before running any code
 document.addEventListener('DOMContentLoaded', function() {
-  // =========== DROPDOWN MENU ==============
+  // =========== MOBILE NAVIGATION VARIABLES ==============
+  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+  const navContainer = document.querySelector('.nav-container');
   const dropdowns = document.querySelectorAll('.dropdown');
 
+  // Handle dropdowns on mobile
   dropdowns.forEach(dropdown => {
-    dropdown.addEventListener('click', function(e) {
-      if (window.innerWidth <= 768) { // Mobile devices only
-        this.classList.toggle('active');
-        e.stopPropagation(); //Prevent event from bubbling up
-      }
-    });
+    const dropdownToggle = dropdown.querySelector('a.dropdown-toggle');
+
+    if(dropdownToggle) {
+      dropdownToggle.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+          e.stopPropagation();
+        }
+      });
+    }
+  });
+
+
+  // Toggle mobile menu
+mobileNavToggle.addEventListener('click', () => {
+  const isOpen = navContainer.classList.contains('active');
+  navContainer.classList.toggle('active');
+  mobileNavToggle.setAttribute('aria-expanded', !isOpen);
+  mobileNavToggle.classList.toggle('active');
+  
+  // Prevent body scrolling when menu is open
+document.body.style.overflow = isOpen ? 'auto' : 'hidden';
+
 });
 
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!navContainer.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+    navContainer.classList.remove('active');
+    mobileNavToggle.classList.remove('active');
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = 'auto';
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function() {
-  if (window.innerWidth <= 768) {
+    // Close all dropdowns
     dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
   }
 });
 
+// Close mobile menu when window is resized above mobile breakpoint
+window .addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    navContainer.classList.remove('active');
+    mobileNavToggle.classList.remove('active');
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = 'auto';
+
+    // Reset all dropdowns
+    dropdowns.forEach(dropdown => {
+      dropdown.classList.remove('active');
+    });
+  }
+});
 
 // ============== IMAGE SLIDER =====================
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
-const prevBtn = document.querySelector('prev');
+const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
+const slider = document.querySelector('.slider');
 let currentSlide = 0;
 let slideInterval;
+let isHovered = false;
 
 // Function to show a specific slide
 function showSlide(index) {
@@ -63,7 +105,9 @@ function prevSlide() {
 
 // Start automatic slideshow
 function startSlideshow() {
+  if (!isHovered) { // Only start if not hovered
   slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+  }
 }
 
 // Stop automatic slideshow
@@ -72,47 +116,94 @@ function stopSlideshow() {
 }
 
 // Event Listeners for navigation buttons
+if(nextBtn) {
 nextBtn.addEventListener('click', () => {
   stopSlideshow();
   nextSlide();
   startSlideshow();
 });
+}
 
-prevBtn.Btn.addEventListener('click', () => {
+if (prevBtn) {
+prevBtn.addEventListener('click', () => {
   stopSlideshow();
   prevSlide();
   startSlideshow();
 });
+}
 
 // Event listeners for dots
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
     stopSlideshow();
     currentSlide = index;
-    nextSlide();
+    showSlide(currentSlide);
+    // nextSlide();
     startSlideshow();
   });
 });
 
-// Pause slideshow when hovering over slider
-const slider = document.querySelector('.slider');
-slider.addEventListener('mouseenter', stopSlideshow);
-slider.addEventListener('mouseleave', startSlideshow);
+// Hover handlers
+slider.addEventListener('mouseenter', () => {
+  isHovered = true;
+  stopSlideshow();
+});
+
+slider.addEventListener('mouseleave', () => {
+  isHovered = false;
+  startSlideshow();
+});
 
 // Start the slideshow initially
 startSlideshow();
 
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  stopSlideshow();
+});
+
+// ============== TRACKING FUNCTIONALIY ==========
+const trackingForm = document.querySelector('.tracking-container');
+const trackingInput = document.getElementById('tracking-input');
+const trackButton = document.getElementById('track-button');
+
+trackButton.addEventListener('click', function(e) {
+  e.preventDefault();
+  const trackingId = trackingInput.value.trim();
+
+  if (trackingId) {
+    // Here you would typically make an API call to your backend
+    alert(`Tracking shipment with Id: ${trackingId}`);
+    // Reset input
+    trackingInput.value = '';
+  } else {
+    alert('Please enter a tracking number');
+  }
+});
 
 
+// ============ CONTACT FORM =============
+const contactForm = document.getElementById('contact-form');
 
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
 
+  // Get form data
+  const formData = new FormData(this);
+  const formObject = {};
+  formData.forEach((value, key) => formObject[key] = value);
 
+  // Here you would typically send this data to your backend
+  console.log('Form submitted with data:', formObject);
+  alert('Thank you for your message! We will get back to you shortly.');
 
-
-
-
+  // Reset form
+  this.reset();
+});
 
 });
+
+
 
 // Backend URL
 const BASE_URL = 'http://localhost:5000/api/auth';

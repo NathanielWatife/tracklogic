@@ -181,6 +181,76 @@ trackButton.addEventListener('click', function(e) {
   }
 });
 
+// Function to handle tracking from home page
+function handleHomePageTracking() {
+  const trackingInput = document.getElementById('tracking-input');
+  const trackButton = document.getElementById('track-button');
+
+  if (trackingInput && trackButton) {
+    trackButton.addEventListener('click', (e) => {
+      const trackingId = trackingInput.value.trim();
+      if(trackingId) {
+        // Add tracking ID to url as a parameter
+        e.preventDefault();
+        window.location.href = `track.html?id=${encodeURIComponent(trackingId)}`;
+      }
+    });
+  }
+}
+
+// Function to handle tracking page
+function handleTrackingPage() {
+  const trackForm = document.getElementById('track-form');
+  const trackingResults = document.getElementById('tracking-results');
+
+  if (trackForm) {
+    // check if there's a tracking ID in the url
+    const urlParams = new URLSearchParams(window.location.search);
+    const trackingId = urlParams.get('id');
+
+    if (trackingId) {
+      // Pre-fill the tracking input if Id exists in URL
+      document.getElementById('tracking-id').value = trackingId;
+      // Automatically submit the form
+      trackForm.dispatchEvent(new Event('submit'));
+    }
+
+    trackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const trackingId = document.getElementById('tracking-id').value.trim();
+
+      if (trackingId) {
+        // Show loading state
+        trackForm.querySelector('button').textContent = 'Tracking...';
+
+        try {
+          // Stimulate API call (replace with actual API call)
+          await new Promise(resolve => setTimeout(resolve, 1500));
+
+          // Update tracking results (replace with actual data)
+          document.getElementById('package-id').textContent = trackingId;
+          document.getElementById('status').textContent = 'In Transit';
+          document.getElementById('current-location').textContent = 'Lagos, Nigeria';
+          document.getElementById('estimated-delivery').textContent = '2 days';
+
+          // Show results
+          trackingResults.classList.remove('hidden');
+        }
+        catch (error) {
+          alert('Error tracking package. Please try again.');
+        }
+        finally {
+          // Reset button text
+          trackForm.querySelector('button').textContent = 'Track Package';
+        }
+      }
+    });
+  }
+}
+handleHomePageTracking();
+handleTrackingPage();
+
+
 
 // ============ CONTACT FORM =============
 const contactForm = document.getElementById('contact-form');

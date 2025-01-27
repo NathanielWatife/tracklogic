@@ -77,24 +77,31 @@ router.post(
     }
 );
 
-// Verify email route
+// Email verification route
 router.get('/verify-email', async (req, res) => {
-    const { token } = req.query;
-    if (!token) return res.status(400).json({ message: 'Token is missing' });
+    const { token } = req.query; // Get the token from the query string
+    if (!token) {
+        return res.status(400).send('<h3>Invalid or missing token. Verification failed.</h3>');
+    }
 
     try {
+        // Verify the JWT token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
 
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        // Find the user and mark their email as verified
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(404).send('<h3>User not found. Verification failed.</h3>');
+        }
 
         user.isEmailVerified = true;
         await user.save();
 
-        res.json({ message: 'Email verified successfully.' });
+        // Redirect to the login page
+        return res.redirect('/login.html');
     } catch (err) {
-        console.error('Verification Error:', err);
-        res.status(400).json({ message: 'Invalid or expired token' });
+        console.error('Error verifying email:', err.message);
+        res.status(400).send('<h3>Invalid or expired token. Verification failed.</h3>');
     }
 });
 

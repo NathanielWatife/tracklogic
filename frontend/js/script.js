@@ -43,7 +43,8 @@ function redirectAuthenticatedUsers() {
 
 /************ SIGNUP ************/
 document.getElementById('signup-form')?.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent form submission
+    showLoader('Creating your account...'); // Show loader with message
 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -59,22 +60,27 @@ document.getElementById('signup-form')?.addEventListener('submit', async (event)
 
         const data = await response.json();
         if (response.ok) {
-            alert('Registration successful! Redirecting to login.');
+            // Redirect to login
             window.location.href = 'login.html';
         } else {
-            showError(data.message || 'Failed to register. Please try again.');
+            // Show error message
+            document.getElementById('loader-text').textContent = data.message || 'Failed to sign up. Please try again.';
         }
     } catch (err) {
-        showError('An error occurred. Please try again later.');
-        console.error('Error during registration:', err.message);
+        console.error('Error during signup:', err.message);
+        document.getElementById('loader-text').textContent = 'An error occurred. Please try again later.';
+    } finally {
+        // Hide the loader after a short delay (optional)
+        setTimeout(hideLoader, 1500);
     }
 });
+
 /************ SIGNUP END ************/
 
 /************ LOGIN ************/
 document.getElementById('login-form')?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    showLoader();
+    event.preventDefault(); // Prevent form submission
+    showLoader('Logging you in...'); // Show loader with message
 
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
@@ -88,19 +94,22 @@ document.getElementById('login-form')?.addEventListener('submit', async (event) 
 
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem('token', data.token); // Save token in localStorage
-            alert('Login successful! Redirecting to home.');
-            window.location.href = 'index.html'; // Redirect to index page
+            // Save token and redirect to the homepage
+            localStorage.setItem('token', data.token);
+            window.location.href = 'index.html';
         } else {
-            showError(data.message || 'Failed to log in. Please try again.');
+            // Show error message
+            document.getElementById('loader-text').textContent = data.message || 'Failed to log in. Please try again.';
         }
     } catch (err) {
-        showError('An error occurred. Please try again later.');
         console.error('Error during login:', err.message);
+        document.getElementById('loader-text').textContent = 'An error occurred. Please try again later.';
     } finally {
-        hideLoader();
+        // Hide the loader after a short delay (optional)
+        setTimeout(hideLoader, 1500);
     }
 });
+
 /************ LOGIN END ************/
 
 /************ LOGOUT ************/
@@ -246,11 +255,24 @@ function clearError() {
     }
 }
 
-function showLoader() {
-    document.querySelector('.loader')?.classList.remove('hidden');
+
+// Show Loader
+// Show Loader with a Message
+function showLoader(message = 'Loading...') {
+    const loader = document.getElementById('loader');
+    const loaderText = document.getElementById('loader-text');
+    if (loader && loaderText) {
+        loaderText.textContent = message; // Update the loading message
+        loader.classList.remove('hidden'); // Show the loader
+    }
 }
 
+// Hide the Loader
 function hideLoader() {
-    document.querySelector('.loader')?.classList.add('hidden');
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.add('hidden'); // Hide the loader
+    }
 }
+
 /************ END HELPER FUNCTIONS ************/

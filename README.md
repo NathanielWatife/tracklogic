@@ -131,6 +131,5 @@ backend/
 5. Open pull request
 
 ## Contact
-- Project Repository: [GitHub Link]
-- Developer Email: [Your Email]
+- Project Repository: [\[GitHub Link\]](https://github.com/NathanielWatife/tracklogic)
 
